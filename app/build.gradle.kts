@@ -71,6 +71,13 @@ dependencies {
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+
+    //Coroutines
+    implementation(libs.coroutinesCore)
+    implementation(libs.coroutinesAndroid)
+
+    //Coroutine Lifecycle Scopes
+    implementation(libs.lifecycleViewModel)
 }
 kapt {
     correctErrorTypes = true

@@ -12,6 +12,9 @@ material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
 
+coroutinesVersion = "1.10.2"
+coroutinesLifecycleVersion = "2.9.2"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,6 +32,12 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 hiltCompiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 
+#Coroutines
+coroutinesCore = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
+coroutinesAndroid = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
+
+#Coroutine Lifecycle Scopes
+lifecycleViewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "coroutinesLifecycleVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
