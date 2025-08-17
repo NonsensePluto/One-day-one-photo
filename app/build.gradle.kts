@@ -8,8 +8,13 @@ val apiToken: String? = localProperties.getProperty("api.token")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-}
 
+    alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.kotlinKapt)
+}
+hilt {
+    enableAggregatingTask = false
+}
 android {
     namespace = "com.example.onedayonephoto"
     compileSdk = 36
@@ -23,6 +28,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_TOKEN", "\"${apiToken ?: ""}\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -53,4 +62,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hiltCompiler)
+
+    // Ktor
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+}
+kapt {
+    correctErrorTypes = true
 }
