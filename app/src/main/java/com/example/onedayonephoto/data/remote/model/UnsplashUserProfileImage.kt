@@ -1,4 +1,4 @@
-package com.example.onedayonephoto.data.remote.models
+package com.example.onedayonephoto.data.remote.model
 
 import kotlinx.serialization.Serializable
 

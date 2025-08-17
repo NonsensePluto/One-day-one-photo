@@ -2,7 +2,7 @@ package com.example.onedayonephoto.data.remote.api
 
 import android.util.Log
 import com.example.onedayonephoto.BuildConfig
-import com.example.onedayonephoto.data.remote.models.UnsplashPhotoResponse
+import com.example.onedayonephoto.data.remote.model.UnsplashPhotoResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -25,8 +25,8 @@ class UnsplashApiClientImpl @Inject constructor() : UnsplashApiClient{
         }
     }
 
-    override suspend fun getRandomPhoto(): UnsplashPhotoResponse? {
-        return try {
+    override suspend fun getRandomPicture(): UnsplashPhotoResponse {
+        try {
             val response: UnsplashPhotoResponse = client.get(BASE_URL) {
                 headers {
                     append(
@@ -35,10 +35,10 @@ class UnsplashApiClientImpl @Inject constructor() : UnsplashApiClient{
                     )
                 }
             }.body()
-            response
+            return response
         } catch (e: Exception) {
             Log.e("UnsplashApiClient", "Exception: ", e)
-            null
+            throw e
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.onedayonephoto.data.remote.api
 
-import com.example.onedayonephoto.data.remote.models.UnsplashPhotoResponse
+import com.example.onedayonephoto.data.remote.model.UnsplashPhotoResponse
 
 interface UnsplashApiClient {
-    suspend fun getRandomPhoto(): UnsplashPhotoResponse?
+    suspend fun getRandomPicture(): UnsplashPhotoResponse?
 }
