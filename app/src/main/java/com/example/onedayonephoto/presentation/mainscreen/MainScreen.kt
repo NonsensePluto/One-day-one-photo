@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import androidx.core.graphics.toColorInt
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.onedayonephoto.presentation.service.LockScreenService
 
 @AndroidEntryPoint
 class MainScreen : Fragment(R.layout.main_screen) {
@@ -56,6 +57,12 @@ class MainScreen : Fragment(R.layout.main_screen) {
 
         binding?.btnNext?.setOnClickListener {
             viewModel.getRandomPicture()
+        }
+
+        binding?.btnService?.setOnClickListener {
+            viewModel.currentPicture.value?.let { picture ->
+                LockScreenService.startService(requireContext(), picture.pictureUrl)
+            }
         }
     }
 
