@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UnsplashUser(
+data class UnsplashUser (
+    @SerialName("id")
     val id: String?,
+    @SerialName("username")
     val username: String?,
-    val name: String?,
-    @SerialName("profile_image") val profileImage: UnsplashUserProfileImage?
 )

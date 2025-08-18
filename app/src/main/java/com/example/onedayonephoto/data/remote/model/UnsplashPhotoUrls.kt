@@ -5,10 +5,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UnsplashPhotoUrls(
+    @SerialName("raw")
     val raw: String,
+    @SerialName("full")
     val full: String,
+    @SerialName("regular")
     val regular: String,
+    @SerialName("small")
     val small: String,
+    @SerialName("thumb")
     val thumb: String,
-    @SerialName("small_s3") val smallS3: String
+    @SerialName("small_s3")
+    val smallS3: String
 )

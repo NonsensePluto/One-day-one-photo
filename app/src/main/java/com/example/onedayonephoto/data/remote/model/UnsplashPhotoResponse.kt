@@ -5,21 +5,24 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UnsplashPhotoResponse(
+    @SerialName("id")
     val id: String,
-    val slug: String,
-    @SerialName("alternative_slugs") val alternativeSlugs: Map<String, String>,
-    @SerialName("created_at") val createdAt: String?,
-    @SerialName("updated_at") val updatedAt: String?,
-    @SerialName("promoted_at") val promotedAt: String?,
-    val width: Int?,
-    val height: Int?,
+    @SerialName("created_at")
+    val createdAt: String?,
+    @SerialName("width")
+    val width: Int,
+    @SerialName("height")
+    val height: Int,
+    @SerialName("color")
     val color: String?,
-    @SerialName("blur_hash") val blurHash: String?,
+    @SerialName("description")
     val description: String?,
-    @SerialName("alt_description") val altDescription: String?,
+    @SerialName("urls")
     val urls: UnsplashPhotoUrls,
+    @SerialName("links")
     val links: UnsplashLinks,
+    @SerialName("likes")
     val likes: Int?,
-    @SerialName("liked_by_user") val likedByUser: Boolean?,
+    @SerialName("user")
     val user: UnsplashUser?
 )

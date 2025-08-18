@@ -11,6 +11,8 @@ plugins {
 
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlinKapt)
+
+    alias(libs.plugins.kotlinSerialization)
 }
 hilt {
     enableAggregatingTask = false
@@ -50,6 +52,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -78,6 +83,16 @@ dependencies {
 
     //Coroutine Lifecycle Scopes
     implementation(libs.lifecycleViewModel)
+
+    //Glide
+    implementation(libs.glide)
+
+    implementation(libs.androidx.fragment.ktx)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+
 }
 kapt {
     correctErrorTypes = true

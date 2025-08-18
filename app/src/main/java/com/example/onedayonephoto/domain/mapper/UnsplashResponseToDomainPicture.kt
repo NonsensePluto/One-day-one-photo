@@ -11,7 +11,8 @@ class UnsplashResponseToDomainPicture @Inject constructor() {
             pictureUrl = randomPicture.urls.regular,
             pictureDate = randomPicture.createdAt?: "No date available",
             pictureDescription = randomPicture.description ?: "No description available",
-            photographer = randomPicture.user?.name ?: "Unknown",
+            photographer = randomPicture.user?.username ?: "Unknown",
+            color = randomPicture.color
         )
     }
 }

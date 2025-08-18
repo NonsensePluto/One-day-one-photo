@@ -5,8 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UnsplashLinks(
+    @SerialName("self")
     val self: String?,
+    @SerialName("html")
     val html: String?,
+    @SerialName("download")
     val download: String?,
-    @SerialName("download_location") val downloadLocation: String?
+    @SerialName("download_location")
+    val downloadLocation: String?
 )

@@ -3,4 +3,6 @@
     <string name="api_picture">Api picture</string>
     <string name="next_photo">Новое фото</string>
     <string name="create_service">Вывести на главный экран</string>
+    <string name="create_serv">Вывести на главный экран</string>
+    <string name="random_picture">Случайное фото</string>
 </resources>

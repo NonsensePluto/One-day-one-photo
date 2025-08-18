@@ -28,10 +28,10 @@ class UnsplashApiClientImpl @Inject constructor() : UnsplashApiClient{
     override suspend fun getRandomPicture(): UnsplashPhotoResponse {
         try {
             val response: UnsplashPhotoResponse = client.get(BASE_URL) {
-                headers {
-                    append(
-                        HttpHeaders.Authorization,
-                        "client_id=${BuildConfig.API_TOKEN}"
+                url {
+                    parameters.append(
+                        "client_id",
+                        BuildConfig.API_TOKEN
                     )
                 }
             }.body()
