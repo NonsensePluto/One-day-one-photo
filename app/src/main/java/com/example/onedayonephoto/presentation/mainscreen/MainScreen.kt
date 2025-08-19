@@ -15,13 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import androidx.core.graphics.toColorInt
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.onedayonephoto.presentation.service.LockScreenService
+import com.example.onedayonephoto.presentation.notification.LockScreenService
 
 @AndroidEntryPoint
 class MainScreen : Fragment(R.layout.main_screen) {
     private val viewModel: MainScreenViewModel by viewModels()
     private var binding: MainScreenBinding? = null
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,6 +62,10 @@ class MainScreen : Fragment(R.layout.main_screen) {
             viewModel.currentPicture.value?.let { picture ->
                 LockScreenService.startService(requireContext(), picture.pictureUrl)
             }
+        }
+
+        binding?.btnStopService?.setOnClickListener {
+            LockScreenService.stopService(requireContext())
         }
     }
 

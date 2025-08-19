@@ -1,4 +1,4 @@
-package com.example.onedayonephoto.presentation.service
+package com.example.onedayonephoto.presentation.notification
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -24,6 +24,7 @@ class LockScreenService: Service() {
     private var pictureUrl: String? = null
     private val glide by lazy { Glide.with(this) }
     private val serviceScope = CoroutineScope(Dispatchers.IO)
+
 
 
     override fun onCreate() {
