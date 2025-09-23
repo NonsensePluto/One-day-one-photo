@@ -1,4 +1,4 @@
-package com.example.onedayonephoto.domain.mapper
+package com.example.onedayonephoto.data.mapper
 
 import com.example.onedayonephoto.data.remote.model.UnsplashPhotoResponse
 import com.example.onedayonephoto.domain.model.PictureModel
