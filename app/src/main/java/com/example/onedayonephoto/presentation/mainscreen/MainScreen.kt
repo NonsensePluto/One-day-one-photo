@@ -1,9 +1,14 @@
 package com.example.onedayonephoto.presentation.mainscreen
 
 import android.animation.ValueAnimator
+import android.app.AlertDialog
+import android.app.WallpaperManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +21,9 @@ import kotlinx.coroutines.flow.collectLatest
 import androidx.core.graphics.toColorInt
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.onedayonephoto.presentation.notification.LockScreenService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class MainScreen : Fragment(R.layout.main_screen) {
@@ -26,8 +34,44 @@ class MainScreen : Fragment(R.layout.main_screen) {
         super.onViewCreated(view, savedInstanceState)
         binding = MainScreenBinding.bind(view)
 
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.button_color)
 
+        setUpColor()
+        setUpListeners()
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private fun setUpListeners() {
+        binding?.ivPhoto?.setOnLongClickListener {
+            viewModel.currentPicture.value?.let { picture ->
+                showWallpaperOptionsDialog(picture.pictureUrl)
+            }
+            true
+        }
+
+        binding?.btnNext?.setOnClickListener {
+            viewModel.getRandomPicture()
+        }
+
+        binding?.btnService?.setOnClickListener {
+            viewModel.currentPicture.value?.let { picture ->
+                LockScreenService.startService(requireContext(), picture.pictureUrl)
+            }
+        }
+
+        binding?.btnStopService?.setOnClickListener {
+            LockScreenService.stopService(requireContext())
+        }
+    }
+
+    private fun setUpColor() {
+
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.button_color)
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             var lastColorInt = "#fae7b5".toColorInt()
@@ -53,25 +97,60 @@ class MainScreen : Fragment(R.layout.main_screen) {
                 }
             }
         }
-
-        binding?.btnNext?.setOnClickListener {
-            viewModel.getRandomPicture()
-        }
-
-        binding?.btnService?.setOnClickListener {
-            viewModel.currentPicture.value?.let { picture ->
-                LockScreenService.startService(requireContext(), picture.pictureUrl)
-            }
-        }
-
-        binding?.btnStopService?.setOnClickListener {
-            LockScreenService.stopService(requireContext())
-        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
+    private fun showWallpaperOptionsDialog(imageUrl: String) {
+        val options = arrayOf("Домашний экран", "Экран блокировки", "Оба экрана")
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Установить обои")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> setWallpaperForHomeScreen(imageUrl)
+                    1 -> setWallpaperForLockScreen(imageUrl)
+                    2 -> setWallpaperForBoth(imageUrl)
+                }
+            }
+            .setNegativeButton("Отмена", null)
+            .show()
+    }
+
+    private fun setWallpaperForHomeScreen(imageUrl: String) {
+        setWallpaperWithFlags(imageUrl, WallpaperManager.FLAG_SYSTEM)
+    }
+
+    private fun setWallpaperForLockScreen(imageUrl: String) {
+        setWallpaperWithFlags(imageUrl, WallpaperManager.FLAG_LOCK)
+    }
+
+
+
+    private fun setWallpaperForBoth(imageUrl: String) {
+        setWallpaperWithFlags(imageUrl, WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK)
+    }
+
+    private fun setWallpaperWithFlags(imageUrl: String, flags: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+
+                val bitmap = withContext(Dispatchers.IO) {
+                    Glide.with(requireContext())
+                        .asBitmap()
+                        .load(imageUrl)
+                        .submit()
+                        .get()
+                }
+
+                val wallpaperManager = WallpaperManager.getInstance(requireContext())
+                wallpaperManager.setBitmap(bitmap, null, true, flags)
+
+                Toast.makeText(requireContext(), "Обои установлены!", Toast.LENGTH_SHORT).show()
+
+            } catch (e: Exception) {
+                Log.e("Wallpaper", "Error setting wallpaper", e)
+                Toast.makeText(requireContext(), "Ошибка установки обоев", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }
